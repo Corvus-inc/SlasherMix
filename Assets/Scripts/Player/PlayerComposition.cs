@@ -12,7 +12,7 @@ public class PlayerComposition : MonoBehaviour
     private PlayerMovement _playerMovement;
     public void Construct()
     {
-        _playerMovement = new PlayerMovement(_inputController, playerRigidbody2D);
+        _playerMovement = new PlayerMovement(playerRigidbody2D);
         _inputController = new PlayerInputController(_playerMovement, playerInput);
     }
 

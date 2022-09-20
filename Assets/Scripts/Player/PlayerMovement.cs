@@ -1,3 +1,4 @@
+using System;
 using Player.Intefaces;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -5,19 +6,17 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement
 {
-    private IPlayerInputController _input;
     private readonly Rigidbody2D _rigidbody2D;
-    private float _moveSpeed = 7;
+    private float _moveSpeed = 10;
     private float _jumpForce = 1300;
 
-    private LayerMask _groundLayers;
+    private readonly LayerMask _groundLayers;
     private bool _grounded = true;
     private float _groundedOffset = 0;
     private float _groundedRadius = 1f;
 
-    public PlayerMovement(IPlayerInputController input, Rigidbody2D rigidbody2D)
+    public PlayerMovement(Rigidbody2D rigidbody2D)
     {
-        _input = input;
         _rigidbody2D = rigidbody2D;
         _groundLayers = LayerMask.GetMask("Ground");
     }
@@ -27,9 +26,7 @@ public class PlayerMovement
     {
         if (direction != Vector2.zero)
         {
-            var currentDir = direction;
-            
-            _rigidbody2D.velocity = new Vector2(currentDir.x * _moveSpeed, _rigidbody2D.velocity.y);
+            _rigidbody2D.velocity = new Vector2(direction.x * _moveSpeed, _rigidbody2D.velocity.y);
         }
     }
 
