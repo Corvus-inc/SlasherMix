@@ -9,7 +9,7 @@ public class PlayerComposition : MonoBehaviour
     [SerializeField] private Rigidbody2D playerRigidbody2D;
 
     private IPlayerInputController _inputController;
-    private PlayerMovement _playerMovement;
+    private IPlayerMovement _playerMovement;
     public void Construct()
     {
         _playerMovement = new PlayerMovement(playerRigidbody2D);

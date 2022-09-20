@@ -6,12 +6,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputController : IPlayerInputController, IDisposable
 {
-    private readonly PlayerMovement _playerMovement;
+    private readonly IPlayerMovement _playerMovement;
     private readonly PlayerInput _playerInput;
     private readonly InputAction _moveAction;
     private readonly InputAction _jumpAction;
 
-    public PlayerInputController(PlayerMovement playerMovement, PlayerInput playerInput)
+    public PlayerInputController(IPlayerMovement playerMovement, PlayerInput playerInput)
     {
         _playerInput = playerInput;
         _playerMovement = playerMovement;

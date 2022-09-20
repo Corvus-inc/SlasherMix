@@ -4,20 +4,24 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement
+public class PlayerMovement : IPlayerMovement
 {
     private readonly Rigidbody2D _rigidbody2D;
+    private readonly Transform _playerTransform;
+
     private float _moveSpeed = 10;
     private float _jumpForce = 1300;
 
     private readonly LayerMask _groundLayers;
+
     private bool _grounded = true;
     private float _groundedOffset = 0;
-    private float _groundedRadius = 1f;
+    private float _groundedRadius = 0.6f;
 
     public PlayerMovement(Rigidbody2D rigidbody2D)
     {
         _rigidbody2D = rigidbody2D;
+        _playerTransform = rigidbody2D.gameObject.transform;
         _groundLayers = LayerMask.GetMask("Ground");
     }
 
@@ -38,17 +42,22 @@ public class PlayerMovement
 
     private bool GroundedCheck()
     {
-        Vector2 spherePosition = new Vector2(_rigidbody2D.gameObject.transform.position.x,
-            _rigidbody2D.gameObject.transform.position.y - _groundedOffset);
+        var position = _playerTransform.position;
+        Vector2 spherePosition = new Vector2(position.x, position.y - _groundedOffset);
+
         _grounded = Physics2D.OverlapCircle(spherePosition, _groundedRadius, _groundLayers);
+
         return _grounded;
     }
 
     private bool WallCheck()
     {
-        Vector2 spherePosition = new Vector2(_rigidbody2D.gameObject.transform.position.x,
-            _rigidbody2D.gameObject.transform.position.y);
-        var grounded = Physics2D.OverlapCircle(spherePosition, _groundedRadius, LayerMask.GetMask("Walls"));
-        return grounded;
+        var position = _rigidbody2D.gameObject.transform.position;
+
+        Vector2 spherePosition = new Vector2(position.x, position.y);
+
+        var wall = Physics2D.OverlapCircle(spherePosition, _groundedRadius, LayerMask.GetMask("Walls"));
+
+        return wall;
     }
 }
